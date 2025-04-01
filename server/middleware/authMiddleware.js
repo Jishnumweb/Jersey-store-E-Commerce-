@@ -1,30 +1,31 @@
-const jwt = require('jsonwebtoken');
-const userModel = require('../models/userModel');
+const jwt = require("jsonwebtoken")
 
-const authUser = async(req,res,next)=>{
+const authUser = (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization
 
-        console.log(authHeader, "header");
+        const { token } = req.cookies;
+        console.log(token, "token");
 
 
-        const authToken = authHeader && authHeader.split(" ")[1];
-        // if there is no tocken
-        if (!authToken) return res.json({ status: false, message: "no auth token" });
+        if (!token) {
+            return res.status(401).json({ error: 'jwt not found' })
+        }
 
-        //decording the token
-        const decoded = jwt.verify(authToken, process.env.SECRETE_KEY)
-        //checking whether the user is exist or not
-        const user = await userModel.findOne({ _id: decoded.id })
-        if (!user) return res.json({ status: false, message: "User not Found" })
+        const verifiedToken = jwt.verify(token, process.env.SECRETE_KEY)
+        if (!verifiedToken) {
+            return res.status(401).json({ error: "User not authorized" })
+        }
 
-        req.user = decoded.id
+        // if (verifiedToken.role !== "user") {
+        //     return res.status(401).json({ error: "Access denied" })
+        // }
+
+        req.user = verifiedToken.id
 
         next()
-        
     } catch (error) {
-        console.log(error);
-        res.status(500).json({error:error.message || "jwt not found"})
+
+        res.status(error.status || 401).json({ error: error.message || "user authorization failed" })
     }
 }
 

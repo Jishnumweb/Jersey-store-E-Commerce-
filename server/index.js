@@ -6,6 +6,7 @@ require('dotenv').config()
 const dbConnect = require('./config/dbConnection');
 const userRoutes = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
+const cartRouter = require('./routes/cartRoutes');
 
 
 // db connection
@@ -24,6 +25,7 @@ app.use(cookieParser())
 // })
 app.use("/user",userRoutes)
 app.use("/product",productRouter)
+app.use("/cart",cartRouter)
 
 
 

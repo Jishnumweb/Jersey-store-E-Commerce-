@@ -1,15 +1,20 @@
 const productModel = require("../models/productModel")
+const uploadToCloudinary = require("../utilities/imageUpload")
 
 
 const create = async (req, res) => {
     try {
 
-        const { title, description, category, image, price } = req.body
+        const { title, description, category, price } = req.body        
 
-        if (!title || !category || !image || !price) {
+        if (!title || !description || !category  || !price) {
             return res.status(400).json("Some fields are missing")
         }
-        const newProduct = new productModel({ title, description, category, image, price })
+        if (!req.file) {
+            return res.status(400).json({ error: 'image not found' })
+        }
+        const cloudinaryRes = await uploadToCloudinary(req.file.path)
+        const newProduct = new productModel({ title, description, category, image:cloudinaryRes, price })
         const saved = await newProduct.save()
 
         res.status(201).json({ message: "Product added successfully", saved })
@@ -51,13 +56,18 @@ const productDetails = async (req,res)=>{
 const updateProduct = async (req,res)=>{
     try {
         const {productId} = req.params
-        const {title,description,category,image,price} = req.body
+        const {title,description,category,price} = req.body
+        let imageUrl;
 
         const productExist = await productModel.findById(productId)
         if(!productExist){
             return res.status(400).json("product does not exist")
         }
-        const updateProduct = await productModel.findByIdAndUpdate(productId,{title,description,category,image,price},{new:true})
+        if (req.file) {
+            const cloudinaryRes = await uploadToCloudinary(req.file.path)
+            imageUrl = cloudinaryRes
+        }
+        const updateProduct = await productModel.findByIdAndUpdate(productId,{title,description,category,image: imageUrl,price},{new:true})
         res.status(200).json({message:"Product updated",updateProduct})
         
     } catch (error) {
