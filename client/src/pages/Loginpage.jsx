@@ -1,37 +1,45 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axiosInstance from '../axios/axiosInstance'
+import { useDispatch } from 'react-redux'
+import { saveUser } from '../redux/Features/userSlice'
+import { loginUser } from '../services/userApi'
+import { toast } from 'sonner'
 
 function Loginpage() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [values, setValues] = useState({
         email: "",
         password: ""
     })
 
+    //  collecting data
     const handleChange = (e) => {
-        
         setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-
     }
+
+    // login Api
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axiosInstance.post("/user/login", values).then((res) => {
-                console.log(res);
-                navigate("/shop")
+            await loginUser(values,{withCredentials : true}).then((res) => {
+                dispatch(saveUser(res.data.userExist))  
+                localStorage.setItem("token",res.data.token) 
+                document.cookie = `token=${res.data.token}; path=/; max-age=86400`; 
 
+                // navigation role base
+                if (res.data.userExist.role === "admin") navigate("/admin");
+                else if (res.data.userExist.role === "seller") navigate("/seller");
+                else navigate("/"); 
+                toast.success(res.data.message)           
             }).catch((error) => {
                 console.log(error);
-
+                toast.error(error.response.data)
             })
-
         } catch (error) {
             console.log(error);
             alert("Something went wrong")
-
-
         }
     }
 
@@ -135,6 +143,7 @@ function Loginpage() {
 
                         </div>
 
+            {/* input fields */}
                         <div>
                             <form action="" onSubmit={handleSubmit}>
                                 <input type="text" name="email" id="" placeholder='EMAIL ADDRESS' className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' onChange={(e) => handleChange(e)} />
@@ -146,6 +155,8 @@ function Loginpage() {
 
 
                         </div>
+
+            {/* signup option */}
                     </div>
                     <div className='lg:w-1/2 lg:h-1/2 lg:py-0 py-5 lg:rounded-tl-[10px] lg:rounded-bl-[10px] rounded-tl-[10px] rounded-tr-[10px]   bg-[#FF0000] shadow-lg flex flex-col item-center justify-center text-center text-white'>
                         <h3 className='mb-0 font-bold lg:text-base text-[14px]'>WELCOME BACK TO ARSENALE!</h3>

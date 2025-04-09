@@ -1,14 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { persistor } from "../redux/store";
+import { clearUser } from "../redux/Features/userSlice";
+import { toast } from "react-toastify";
+import { userLogout } from "../services/userApi";
 
 function Header() {
     const [show, setShow] = useState(false);
-
-    const navLinks = [{ label: "HOME", link: "/" }, { label: "SHOP", link: "/shop" }, { label: "CLUB", link: "#projects" }, { label: "NATIONS", link: "#testimonials" }, { label: "CONTACT", link: "#contact" }]
-
+    const dispatch = useDispatch()
+    const navLinks = [{ label: "HOME", link: "/" }, { label: "SHOP", link: "/shop" }, { label: "CONTACT", link: "#contact" }]
     const navigate = useNavigate()
-    // Prevent background scrolling when menu is open
+    const userData = useSelector(state => state.user);
 
+    // logout function
+    const handleLogout = async () => {
+        try {
+            await userLogout().then((res) => {
+                console.log(res);
+                persistor.purge()
+                dispatch(clearUser())
+                localStorage.removeItem("token");
+                navigate("/")
+                toast.success(res.data.message)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // responsive
     useEffect(() => {
         if (show) {
             document.body.style.overflow = "hidden";
@@ -26,21 +48,52 @@ function Header() {
                 <div>
                     <h6 className="text-[#FF0000] font-bold">KICKWEAR</h6>
                 </div>
-                <div>
-                    <ul className="flex gap-5 mb-0">
-                        {
-                            navLinks.map((nav, index) => (
-                                <div key={index}>
-                                    <li className=" font-semibold mt-2 text-red-600 relative text-[13px] transition-all duration-300 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#95BD2F] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"><a href={nav.link} className="no-underline text-[#FF0000]" onClick={() => navigate(nav.link)}>{nav.label}</a></li>
+                {
+                    userData.value && Object.keys(userData.value).length > 0 ? <div>
+                        <ul className="flex gap-5 mb-0">
+                            {
+                                navLinks.map((nav, index) => (
+                                    <div key={index}>
+                                        <li className=" font-semibold mt-2 text-red-600 relative text-[13px] transition-all duration-300 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#95BD2F] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"><a href={nav.link} className="no-underline text-[#FF0000]" onClick={() => navigate(nav.link)}>{nav.label}</a></li>
+                                    </div>
+                                ))
+                            }
+                        </ul>
+                    </div> : ""
+                }
 
-                                </div>
-                            ))
+                <div className="flex gap-3">
+                    <div>
+                        {
+                            userData.value && Object.keys(userData.value).length > 0 ? <div className="flex ">                            <span className="text-black text-[15px] "></span>
+                                <h5 className="text-[#FF0000] text-[23px] " onClick={() => navigate("/cart")}><FaCartShopping /></h5>
+                            </div>
+                                : ""
+
                         }
-                    </ul>
-                </div>
-                <div className="flex gap-2">
-                    <button className="bg-[#FF0000] font-medium rounded-[5px] py-[3px] px-1 text-[14px]" onClick={() => navigate("/register")} >SIGN-UP</button>
-                    <button className="bg-[#FF0000] font-medium rounded-[5px] py-[3px] px-1 text-[14px]" onClick={() => navigate("/login")}>SIGN-IN</button>
+                    </div>
+                    {
+                        userData.value && Object.keys(userData.value).length > 0 ?
+                            <div className="flex gap-3">
+                                <div className="text-[#FF0000]">
+                                    {userData.value.name}
+                                </div>
+                                <div>
+                                    <button className="bg-[#FF0000] font-medium rounded-[5px] py-[3px] px-1 text-[14px]" onClick={() => handleLogout()} >Logout</button>
+                                </div>
+                            </div>
+                            :
+                            <div className="flex gap-2">
+                                <div>
+                                    <button className="bg-[#FF0000] font-medium rounded-[5px] py-[3px] px-1  text-[14px]" onClick={() => navigate("/register")} >SIGN-UP</button>
+                                </div>
+                                <div>
+                                    <button className="bg-[#FF0000] font-medium rounded-[5px] py-[3px] px-1 text-[14px]" onClick={() => navigate("/login")}>SIGN-IN</button>
+                                </div>
+                            </div>
+                    }
+
+
                 </div>
             </div>
 
@@ -66,12 +119,17 @@ function Header() {
                                 <img src="images/signature.png" alt="" className="h-[30px] object-contain" />
                             </div>
                             {
-                                navLinks.map((nav, index) => (
-                                    <div key={index}>
-                                        <li className="text-[13px] "><a href={nav.link} className="no-underline text-[#ffffff8f]">{nav.label}</a></li>
-
-                                    </div>
-                                ))
+                                userData.value && Object.keys(userData.value).length > 0 ? <div>
+                                    <ul className="flex gap-5 mb-0">
+                                        {
+                                            navLinks.map((nav, index) => (
+                                                <div key={index}>
+                                                    <li className=" font-semibold mt-2 text-red-600 relative text-[13px] transition-all duration-300 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#95BD2F] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"><a href={nav.link} className="no-underline text-[#FF0000]" onClick={() => navigate(nav.link)}>{nav.label}</a></li>
+                                                </div>
+                                            ))
+                                        }
+                                    </ul>
+                                </div> : ""
                             }
                         </ul>
                     </div>
@@ -82,8 +140,31 @@ function Header() {
                         </div>
 
                         <div className="flex gap-2">
-                            <button className="bg-[#FF0000] font-medium lg:rounded-[5px] lg:py-[3px] py-[4px] rounded-[3px] lg:mt-0 mt-2 px-1 lg:text-[14px] text-[10px]" onClick={() => navigate("/register")} >SIGN-UP</button>
-                            <button className="bg-[#FF0000] font-medium lg:rounded-[5px] lg:py-[3px] py-[4px] rounded-[3px] lg:mt-0 mt-2 px-1 lg:text-[14px] text-[10px]" onClick={() => navigate("/login")}>SIGN-IN</button>
+                            <div>
+                                <h5 className="text-[#FF0000] text-[18px] mt-[12px] text-center"><FaCartShopping /></h5>
+                                <span className="text-black">1</span>
+
+                            </div>
+                            {
+                                userData.value && Object.keys(userData.value).length > 0 ?
+                                    <div className="flex gap-3 mt-1">
+                                        <div className="text-[#FF0000]">
+                                            {userData.value.name}
+                                        </div>
+                                        <div>
+                                            <button className="bg-[#FF0000] font-medium rounded-[1px] py-[3px] px-1 text-[10px]" onClick={() => handleLogout()} >Logout</button>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="flex gap-2 mt-1">
+                                        <div>
+                                            <button className="bg-[#FF0000] font-medium rounded-[1px] py-[3px] px-1  text-[10px]" onClick={() => navigate("/register")} >SIGN-UP</button>
+                                        </div>
+                                        <div>
+                                            <button className="bg-[#FF0000] font-medium rounded-[1px] py-[3px] px-1 text-[10px]" onClick={() => navigate("/login")}>SIGN-IN</button>
+                                        </div>
+                                    </div>
+                            }
                         </div>
 
                         <button className="text-2xl flex-shrink-0 text-black" onClick={() => setShow(true)}>

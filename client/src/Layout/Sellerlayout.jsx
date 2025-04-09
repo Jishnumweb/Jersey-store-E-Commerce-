@@ -1,13 +1,13 @@
 import React from 'react'
-import Header from '../components/Header'
 import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
+import Sellernavbar from '../components/seller/Sellernavbar'
 
-function UserLayout() {
+function Sellerlayout() {
   return (
     <div className='flex flex-col h-screen'>
         <div className="headerLayout">
-            <Header/>
+            <Sellernavbar/>
         </div>
         <div className="flex-1">
             <Outlet/>
@@ -19,4 +19,4 @@ function UserLayout() {
   )
 }
 
-export default UserLayout
+export default Sellerlayout

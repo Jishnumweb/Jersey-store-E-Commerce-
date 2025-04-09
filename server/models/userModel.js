@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        enum:["admin","user"],
+        enum:["admin","user","seller"],
         default:"user"
     }
 
 
 },{timestamps:true})
 
-const userModel = new mongoose.model("users",userSchema)
+const userModel = new mongoose.model("User",userSchema)
 module.exports = userModel

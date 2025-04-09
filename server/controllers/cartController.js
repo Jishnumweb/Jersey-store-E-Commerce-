@@ -28,7 +28,7 @@ const addTocart = async (req, res) => {
         const product = await productModel.findById(productId)
 
         if (!product) {
-            return res.status(404).json({ error: "Course not found" })
+            return res.status(404).json({ error: "product not found" })
         }
 
         let cart = await cartModel.findOne({ userId })
@@ -40,7 +40,7 @@ const addTocart = async (req, res) => {
         const courseAlreadyExist = cart.products.some((item) => item.productId.equals(productId))
 
         if (courseAlreadyExist) {
-            return res.status(400).json({ error: "Course already in cart" })
+            return res.status(400).json({ error: "Product already in cart" })
 
         }
 
@@ -79,7 +79,7 @@ const removeFromCart = async (req, res) => {
 
         await cart.save()
 
-        res.status(200).json({ message: 'course removed from cart', cart })
+        res.status(200).json({ message: 'Product removed from cart', cart })
 
 
     } catch (error) {
@@ -109,9 +109,46 @@ const clearCart = async (req, res) => {
 
 }
 
+const cartUpdateQuantity = async (req,res)=>{
+    try {
+        const userId = req.user
+        const {productId} = req.params
+        const {quantity} = req.body
+
+        console.log(quantity,"quantity from frontend");
+        
+ 
+        
+
+        const cart = await cartModel.findOne({userId})
+        if(!cart){
+            return res.status(400).json("Cart not found")
+        }
+        
+
+        const Existproduct = cart.products.find((items)=>items.productId == productId)
+        if(!Existproduct){
+            return res.status(400).json("Product not in cart")
+        }
+        Existproduct.quantity = quantity
+        // Existproduct.price = Existproduct.price * quantity
+        cart.calculateTotalPrice();
+        await cart.save()
+
+        res.status(200).json({message:"succesfull",cart})
+
+
+
+        
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     addTocart,
     getCart,
     removeFromCart,
-    clearCart
+    clearCart,
+    cartUpdateQuantity
 }

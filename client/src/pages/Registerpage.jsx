@@ -1,40 +1,51 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axiosInstance from '../axios/axiosInstance'
+import { toast } from 'sonner'
+import { useDispatch } from 'react-redux'
+import { saveUser } from '../redux/Features/userSlice'
+import { registerApi } from '../services/userApi'
 
 function Registerpage() {
     const navigate = useNavigate()
-    const [values,setValues] = useState({
-        name:"",
-        email:"",
-        password:"",
-        confirmPassword:""
+    const dispatch = useDispatch()
+    const [values, setValues] = useState({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
     })
 
-    const handleChange = (e)=>{
-        setValues((prev)=>({...prev,[e.target.name]:e.target.value}))
+    // data collection from signup form
+    const handleChange = (e) => {
+        setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
+
+    // register Api
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axiosInstance.post("/user/register",values).then((res)=>{
-                console.log(res);
-                navigate("/shop")
+            await registerApi(values).then((res) => {
+                dispatch(saveUser(res.data.saved))
+                localStorage.setItem("token", res.data.token)
+                document.cookie = `token=${res.data.token}; path=/; max-age=86400`;
 
-                
-            }).catch((error)=>{
+                // navigation base role
+                if (res.data.saved.role === "admin") navigate("/admin");
+                else if (res.data.saved.role === "seller") navigate("/seller");
+                else navigate("/");
+                toast.success(res.data.message)
+            }).catch((error) => {
                 console.log(error);
-                
+                toast.error(error.response.data.error)
             })
         } catch (error) {
             console.log(error);
-            alert("Something went wrong")
-            
+            toast.error(error.response)
         }
-        
+
 
     };
-    
+
 
     return (
         <div className="container ">
@@ -136,27 +147,27 @@ function Registerpage() {
 
                         </div>
 
+                        {/* signup form */}
                         <div>
                             <form action="" onSubmit={handleSubmit}>
-                                <input type="text" name="name" id="" placeholder='FULL NAME'  onChange={(e)=>handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
-                                <input type="text" name="email" id="" placeholder='EMAIL ADDRESS' onChange={(e)=>handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
-                                <input type="text" name="password" id="" placeholder='PASSWORD' onChange={(e)=>handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] p-2 placeholder:text-[13px] placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
-                                <input type="text" name="confirmPassword" id="" placeholder='CONFIRM PASSWORD' onChange={(e)=>handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
+                                <input type="text" name="name" id="" placeholder='FULL NAME' onChange={(e) => handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
+                                <input type="text" name="email" id="" placeholder='EMAIL ADDRESS' onChange={(e) => handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
+                                <input type="text" name="password" id="" placeholder='PASSWORD' onChange={(e) => handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] p-2 placeholder:text-[13px] placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
+                                <input type="text" name="confirmPassword" id="" placeholder='CONFIRM PASSWORD' onChange={(e) => handleChange(e)} className='bg-[#8e8c8ca8] lg:w-[400px] w-[300px] placeholder:text-[13px] p-2 placeholder-[#2f2d2db1] placeholder:font-bold mb-3' />
                                 <div>
                                     <button className="bg-[#FF0000] text-white font-medium rounded-[5px] py-[3px] px-2 lg:text-[14px] text-[12px]">SIGN-UP</button>
                                 </div>
                             </form>
-
-
                         </div>
                     </div>
+
+                        {/* login option */}
                     <div className='lg:w-1/2 lg:h-1/2 lg:py-0 py-4 lg:rounded-tl-[10px] lg:rounded-bl-[10px] rounded-tl-[10px] rounded-tr-[10px]   bg-[#FF0000] shadow-lg flex flex-col item-center justify-center text-center text-white'>
                         <h3 className='mb-0 font-bold lg:text-base text-[14px]'>JOIN ARSENALE – </h3>
                         <h3 className='font-bold lg:text-base text-[14px]'>GET THE BEST JERSEYS FIRST!</h3>
                         <p className='lg:text-base text-[10px]'>Create an account to enjoy seamless shopping, exclusive deals, early access to new arrivalsLOGIN, and more!</p>
                         <div>
-                            <button className="bg-[#ffffff] text-black font-medium rounded-[5px] py-[3px] px-3 lg:text-[14px] text-[10px]" onClick={()=>navigate("/login")} >SIGN-IN</button>
-
+                            <button className="bg-[#ffffff] text-black font-medium rounded-[5px] py-[3px] px-3 lg:text-[14px] text-[10px]" onClick={() => navigate("/login")} >SIGN-IN</button>
                         </div>
                     </div>
                 </div>

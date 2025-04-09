@@ -32,7 +32,7 @@ const cartSchema = new mongoose.Schema({
 })
 
 cartSchema.methods.calculateTotalPrice = function () {
-    this.totalPrice = this.products.reduce((total, course) => total + course.price, 0)
+    this.totalPrice = this.products.reduce((total, products) => total + (products.price * products.quantity), 0)
 }
 
 module.exports = new mongoose.model('carts', cartSchema)

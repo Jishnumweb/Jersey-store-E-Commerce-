@@ -15,10 +15,7 @@ const authUser = (req, res, next) => {
         if (!verifiedToken) {
             return res.status(401).json({ error: "User not authorized" })
         }
-
-        // if (verifiedToken.role !== "user") {
-        //     return res.status(401).json({ error: "Access denied" })
-        // }
+ 
 
         req.user = verifiedToken.id
 

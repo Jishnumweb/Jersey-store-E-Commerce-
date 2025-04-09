@@ -7,12 +7,15 @@ const dbConnect = require('./config/dbConnection');
 const userRoutes = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
 const cartRouter = require('./routes/cartRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
+const orderRouter = require('./routes/orderRoutes');
 
 
 // db connection
 dbConnect()
 app.use(cors({
-    origin:"*"
+    origin:"http://localhost:5173",
+    credentials:true
 }))
 
 // Application middlewares
@@ -26,6 +29,9 @@ app.use(cookieParser())
 app.use("/user",userRoutes)
 app.use("/product",productRouter)
 app.use("/cart",cartRouter)
+app.use("/review",reviewRouter)
+app.use("/order",orderRouter)
+
 
 
 

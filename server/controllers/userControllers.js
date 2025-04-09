@@ -69,7 +69,7 @@ const login = async (req,res)=>{
         res.cookie("token", token)
 
 
-        res.status(200).json({message:"User login succesfully", userExist,token})
+        res.status(200).json({message:  "Login succesfull", userExist,token})
         
     } catch (error) {
         console.log(error);
@@ -77,11 +77,26 @@ const login = async (req,res)=>{
     }
 }
 
+// get all users
+
+const getAllUsers = async (req,res)=>{
+    try {
+
+        const users = await userModel.find()
+        res.status(200).json(users)
+        
+    } catch (error) {
+        console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "internal server error" })
+        
+    }
+}
+
 // User Logout
 const logout = async (req, res) => {
     try {
         res.clearCookie("token")
-        res.status(200).json("logout succesfully")
+        res.status(200).json({message:"logout succesfully"})
 
     } catch (error) {
         console.log(error);
@@ -122,8 +137,15 @@ const profile = async(req,res)=>{
 const deleteUser = async (req, res) => {
     try {
         const { userId } = req.params
-        await userModel.findByIdAndDelete(userId)
-        return res.status(200).json("user deleted")
+        console.log(userId,"deleted id");
+        
+       const deleteUsers =  await userModel.findByIdAndDelete(userId)
+
+       if(!deleteUsers){
+        return res.status(400).json("user not found")
+       }
+
+         res.status(200).json({message:"user deleted",deleteUsers})
     } catch (error) {
         console.log(error);
         res.status(error.status || 500).json({ error: error.message || "Internal server error" })
@@ -136,7 +158,8 @@ module.exports = {
     logout,
     update,
     profile,
-    deleteUser
+    deleteUser,
+    getAllUsers
 
 
 }
