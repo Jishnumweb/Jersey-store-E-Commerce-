@@ -5,11 +5,14 @@ const bcrypt = require('bcrypt')
 // Register
 const register = async (req,res)=>{
     try {
-        const {name,email,password,confirmPassword} = req.body
+        const {name,email,password,confirmPassword,branch,role} = req.body
         
         // Checking all fields are provide
         if(!name || !email || !password || !confirmPassword){
             return res.status(400).json({error:"All fields required"})
+        }
+        if(role === "seller" && !branch){
+            return res.status(400).json("seller must select branch")
         }
 
         // Password matching
@@ -21,7 +24,7 @@ const register = async (req,res)=>{
         const salt =await bcrypt.genSalt(10)
         const hashedPassword =await bcrypt.hash(password,salt)
 
-        const newUser =new userModel({name,email,password:hashedPassword})
+        const newUser =new userModel({name,email,password:hashedPassword,branch,role})
         const saved = await newUser.save()
 
         // Token generation

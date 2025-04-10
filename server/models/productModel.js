@@ -32,7 +32,11 @@ const productSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
+    },
+    branch: {
+        type: String
     }
+
 }, { timestamps: true })
 
 const productModel = new mongoose.model("product", productSchema)

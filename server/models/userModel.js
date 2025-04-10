@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
         min:4,
         required:true
     },
+    branch:{
+        type:String,
+        enum:["kochi","tvm","alp","ptm"]
+    },
     role:{
         type:String,
         enum:["admin","user","seller"],

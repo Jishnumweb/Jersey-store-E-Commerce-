@@ -18,6 +18,8 @@ import SellerEditPage from "../pages/sellerPage/SellerEditPage";
 import Adminlayout from "../Layout/Adminlayout";
 import AllproductAdmin from "../pages/Adminpage/AllproductAdmin";
 import Viewuserspage from "../pages/Adminpage/Viewuserspage";
+import AllSellers from "../pages/Adminpage/AllSellers";
+import AddProductAdmin from "../pages/Adminpage/AddProductAdmin";
 
 
 export const router = createBrowserRouter([
@@ -76,7 +78,16 @@ export const router = createBrowserRouter([
             <Admindashboard/>
           </ProtectedRoute>
         )
-      },{
+      },
+      {
+        path: "add-product",
+        element: (
+          <ProtectedRoute authRoles="admin">
+            <AddProductAdmin/>
+          </ProtectedRoute>
+        )
+      },
+      {
         path:"view-all-products",
         element:(
           <ProtectedRoute authUser="admin">
@@ -88,6 +99,13 @@ export const router = createBrowserRouter([
         element:(
           <ProtectedRoute authUser="admin">
             <Viewuserspage/>
+          </ProtectedRoute>
+        )
+      },{
+        path:"view-all-sellers",
+        element:(
+          <ProtectedRoute authUser="admin">
+            <AllSellers/>
           </ProtectedRoute>
         )
       }
@@ -112,7 +130,7 @@ export const router = createBrowserRouter([
       {
         path: "add-product",
         element: (
-          <ProtectedRoute authUser="seller">
+          <ProtectedRoute authRoles="seller">
             <AddProductPage />
           </ProtectedRoute>
         )

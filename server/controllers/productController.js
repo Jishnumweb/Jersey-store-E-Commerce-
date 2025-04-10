@@ -1,20 +1,38 @@
 const productModel = require("../models/productModel")
+const userModel = require("../models/userModel")
 const uploadToCloudinary = require("../utilities/imageUpload")
 
 
 const create = async (req, res) => {
     try {
-
-        const { title, description, category,type,team, price } = req.body        
+        const { title, description, category,type,team, price } = req.body  
+              
 
         if (!title || !description || !category  || !type ||!team || !price) {
             return res.status(400).json("Some fields are missing")
         }
+
+        const user = await userModel.findById(req.user)
+        
+        let branch;
+
+        if(user.role === "admin" && !req.body.branch){
+            return res.status(400).json("Must select branch")
+        }
+        
+
+        if(user.role === "admin"){
+            branch = req.body.branch
+        }else{
+            branch = user.branch
+        }
+        console.log(branch);
+        
         if (!req.file) {
             return res.status(400).json({ error: 'image not found' })
         }
         const cloudinaryRes = await uploadToCloudinary(req.file.path)
-        const newProduct = new productModel({ title, description, category,type,team, image:cloudinaryRes, price })
+        const newProduct = new productModel({ title, description, category,type,team, image:cloudinaryRes, price,branch })
         const saved = await newProduct.save()
 
         res.status(201).json({ message: "Product added successfully", saved })
@@ -34,6 +52,25 @@ const listProducts = async (req,res)=>{
     } catch (error) {
         console.log(error);
         res.status(error.status || 500).json({ error: error.message || "internal server error" })
+    }
+}
+
+const sellerProducts = async (req,res)=>{
+    try {
+        const userId = req.user
+        const seller = await userModel.findById(userId)
+
+        const items = await productModel.find({branch:seller.branch})
+        if(!items){
+            return res.status(400).json("no products")
+        }
+        res.status(200).json(items)
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "internal server error" })
+
     }
 }
 
@@ -113,6 +150,7 @@ module.exports = {
     listProducts,
     productDetails,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    sellerProducts
     
 }

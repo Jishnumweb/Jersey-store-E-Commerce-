@@ -4,6 +4,10 @@ import axiosInstance from "../axios/axiosInstance"
 export const getProducts = ()=>{
     return axiosInstance.get("/product/list-products")
 }
+// get all seller products
+export const sellerProducts = ()=>{
+    return axiosInstance.get("/product/seller-products")
+}
 
 // fetch one product details
 export const fetchDetails = (data)=>{
@@ -11,7 +15,7 @@ export const fetchDetails = (data)=>{
 }
 
 // delete product for admin
-export const deleteProduct = (data)=>{
+export const deleteProductApi = (data)=>{
     return axiosInstance.delete(`/product/delete-product/${data}`)
 }
 

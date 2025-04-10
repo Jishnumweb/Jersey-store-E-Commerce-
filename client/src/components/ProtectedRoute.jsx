@@ -6,7 +6,7 @@ export const ProtectedRoute = ({authUser,children})=>{
     if(!user){
         return <Navigate to="/login"/>
     }
-    if( authUser !== user.value.role){
+    if( authUser && !authUser.includes(user.value.role)){
         return <Navigate to="/"/>
     }
     return children

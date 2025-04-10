@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { getProducts } from '../../services/productApi'
+import { deleteProductApi, getProducts } from '../../services/productApi'
 
 function AllproductAdmin() {
 
@@ -16,22 +16,21 @@ function AllproductAdmin() {
     }, [])
 
     // delete product Api
-    const deleteProduct = async (id)=>{
-        try {
-            await deleteProduct(id).then((res)=>{
-                console.log(res);
-                const filtered = item.filter((items)=>items._id !== id)
-                setItem(filtered)
-                toast.success(res.data)
-            }).catch((error)=>{
-                toast.error(error.response.data)
-            })
-        } catch (error) {
-            console.log(error);
-            
-            
-        }
+const deleteProduct = async (id) => {
+    try {
+        await deleteProductApi(id).then((res) => {
+            console.log(res);
+            const filtered = item.filter((items) => items._id !== id)
+            setItem(filtered)
+            toast.success(res.data)
+        }).catch((error) => {
+            toast.error(error.response.data)
+        })
+    } catch (error) {
+        console.log(error);
     }
+}
+
 
     return (
         <div className='mt-[100px] container mb-5'>

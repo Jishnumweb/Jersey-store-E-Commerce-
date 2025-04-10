@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getProducts } from '../../services/productApi'
+import {  sellerProducts } from '../../services/productApi'
 
 function ViewProductPage() {
 
@@ -10,8 +10,9 @@ function ViewProductPage() {
 
     // fetch all products
     useEffect(() => {
-        getProducts().then((res) => {
+        sellerProducts().then((res) => {
             setItem(res.data)
+            // const filter = 
         }).catch((error) => {
             console.log(error);
         })

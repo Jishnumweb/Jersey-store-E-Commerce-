@@ -15,13 +15,13 @@ function Sellerdashboard() {
     {/* update product */}
       <div className='flex flex-col gap-3 justify-center items-center mt-[100px]'>
           <div >
-            <button className='bg-black text-white px-[100px] py-2' onClick={()=>navigate("add-product")}>ADD PRODUCT</button>
+            <button className='border border-black text-black w-[400px]  py-2' onClick={()=>navigate("add-product")}>ADD PRODUCT</button>
           </div>
           <div >
-            <button className='bg-black text-white px-[94px] py-2 ' onClick={()=>navigate("view-product")}>VIEW PRODUCTS</button>
+            <button className='border border-black text-black w-[400px]  py-2 ' onClick={()=>navigate("view-product")}>VIEW PRODUCTS</button>
           </div>
           <div >
-            <button className='bg-black text-white px-[90px] py-2'>UPDATE PRODUCT</button>
+            <button className='border border-black text-black w-[400px]  py-2'>UPDATE PRODUCT</button>
           </div>
       </div>
     </div>

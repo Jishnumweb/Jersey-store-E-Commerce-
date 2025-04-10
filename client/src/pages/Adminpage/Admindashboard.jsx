@@ -13,14 +13,20 @@ function Admindashboard() {
 
       {/* admin features */}
       <div className='flex flex-col gap-3 justify-center items-center mt-[100px]'>
+      <div >
+            <button className='border border-black text-black w-[400px]  py-2' onClick={()=>navigate("add-product")}>ADD PRODUCT</button>
+          </div>
         <div >
-          <button className='bg-black text-white w-[300px] p-2' onClick={() => navigate("view-all-products")}>VIEW ALL PRODUCTS</button>
+          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-all-products")}>VIEW ALL PRODUCTS</button>
         </div>
         <div >
-          <button className='bg-black text-white w-[300px] p-2' onClick={() => navigate("view-all-users")}>VIEW ALL USERS</button>
+          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-all-users")}>VIEW ALL USERS</button>
         </div>
         <div >
-          <button className='bg-black text-white w-[300px] p-2' onClick={() => navigate("view-product")}>VIEW ALL ORDERS</button>
+          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-all-sellers")}>VIEW ALL SELLERS</button>
+        </div>
+        <div >
+          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-product")}>VIEW ALL ORDERS</button>
         </div>
       </div>
     </div>
