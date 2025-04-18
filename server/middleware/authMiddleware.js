@@ -4,7 +4,7 @@ const authUser = (req, res, next) => {
     try {
 
         const { token } = req.cookies;
-        console.log(token, "token");
+        // console.log(token, "token");
 
 
         if (!token) {

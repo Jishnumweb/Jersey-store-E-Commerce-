@@ -42,21 +42,21 @@ function CartCard({ item, onRemove, onTotal }) {
         <div>
             <div className='grid grid-cols-5 gap-2 border border-black p-3 justify-center items-center mb-2'>
                 <div>
-                    <img src={item.productId.image} alt="" className='h-[100px] object-contain' />
+                    <img src={item?.productId.image} alt="" className='h-[100px] object-contain' />
                 </div>
                 <div>
-                    <p>{item.productId.title}</p>
+                    <p>{item?.productId.title}</p>
                 </div>
                 <div className='flex gap-2 items-center text-center'>
-                    <button onClick={() => handleQuantityUpdate(value - 1, item.productId._id)}>-</button>
+                    <button onClick={() => handleQuantityUpdate(value - 1, item?.productId._id)}>-</button>
                     <p className='bg-black px-2 text-white'>{value}</p>
-                    <button onClick={() => handleQuantityUpdate(value + 1, item.productId._id)}>+</button>
+                    <button onClick={() => handleQuantityUpdate(value + 1, item?.productId._id)}>+</button>
                 </div>
                 <div>
-                    <button className='text-[#ff1f1f] text-[25px] p-2' onClick={() => handleRemove(item.productId._id)}><MdDeleteOutline /></button>
+                    <button className='text-[#ff1f1f] text-[25px] p-2' onClick={() => handleRemove(item?.productId._id)}><MdDeleteOutline /></button>
                 </div>
                 <div>
-                    <p>{item.price}</p>
+                    <p>{item?.price}</p>
                 </div>
             </div>
         </div>

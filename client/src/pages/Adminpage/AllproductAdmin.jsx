@@ -41,7 +41,7 @@ const deleteProduct = async (id) => {
                 <div className='flex flex-col gap-2'>
                     {
                         item.map((items,index) => (
-                            <div className='grid grid-cols-4 gap-2 bg-[#c7c7c7] justify-center items-center' key={index}>
+                            <div className='grid grid-cols-4 gap-2  border border-black bg-[#f1f0f0] justify-center items-center' key={index}>
                             <div>
                                 <img src={items.image} alt="" className='h-[100px] object-contain' />
                             </div>

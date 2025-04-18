@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {  sellerProducts } from '../../services/productApi'
+import {  deleteProductApi, sellerProducts } from '../../services/productApi'
+import { toast } from 'sonner'
 
 function ViewProductPage() {
 
@@ -12,11 +13,29 @@ function ViewProductPage() {
     useEffect(() => {
         sellerProducts().then((res) => {
             setItem(res.data)
-            // const filter = 
         }).catch((error) => {
             console.log(error);
         })
     }, [])
+
+    // delete product
+    const handleRemove = async (id)=>{
+        try {
+            await deleteProductApi(id).then((res)=>{
+                toast.success(res.data)
+                const filterItems = item.filter((items)=>items._id !== id)
+                setItem(filterItems)
+                
+            }).catch((error)=>{
+                console.log(error);
+                
+            })
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
 
     return (
         <div className='mt-[100px] container mb-5'>
@@ -26,8 +45,8 @@ function ViewProductPage() {
 
                     {/* product listing */}
                     {
-                        item.map((items) => (
-                            <div className='grid grid-cols-5 gap-2 bg-[#c7c7c7] justify-center items-center'>
+                        item.map((items,index) => (
+                            <div className='grid grid-cols-5 gap-2 border border-black bg-[#f1f0f0] justify-center items-center' key={index}>
                                 <div>
                                     <img src={items.image} alt="" className='h-[100px] object-contain' />
                                 </div>
@@ -41,7 +60,7 @@ function ViewProductPage() {
                                     <button className='bg-black text-white py-1 px-2 text-[13px]' onClick={() => navigate(`/seller/edit-product/${items._id}`)}>EDIT ITEM</button>
                                 </div>
                                 <div>
-                                    <button className='bg-red-700 text-white py-1 px-2 text-[13px]'>DELETE ITEM</button>
+                                    <button className='bg-red-700 text-white py-1 px-2 text-[13px]' onClick={()=>handleRemove(items._id)}>DELETE ITEM</button>
                                 </div>
                             </div>
                         ))

@@ -42,7 +42,7 @@ function Adminnavbar() {
 
             <div className="container z-50 fixed top-0 w-full hidden sm:hidden lg:flex justify-between items-center gap-8   rounded-[15px] py-4 ">
                 <div>
-                    <h6 className="text-[#FF0000] font-bold">KICKWEAR</h6>
+                    <h6 className="text-[#FF0000] font-bold cursor-pointer" onClick={()=>navigate("/")}>KICKWEAR</h6>
                 </div>
 
 

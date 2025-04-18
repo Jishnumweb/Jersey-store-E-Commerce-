@@ -8,121 +8,134 @@ import { addToCart } from '../services/cartApi'
 
 function ProductDetailsPage() {
     const [item, setItem] = useState({})
-    const [reviewData, setreviewData] = useState([])
-    const [values,setValues] = useState({
-        rating:"",
-        comment:""
-    })
+    const [reviewData, setReviewData] = useState([])
+    const [values, setValues] = useState({ rating: "", comment: "" })
 
     const { id } = useParams()
 
-    // details of one product
+    // Fetch product details
     useEffect(() => {
-        fetchDetails(id).then((res) => {
-            setItem(res.data)
-        }).catch((error) => {
-            console.log(error);
-        })
-    },[])
+        fetchDetails(id)
+            .then((res) => setItem(res.data))
+            .catch((error) => console.log(error))
+    }, [id])
 
-    // Reviews fetching
+    // Fetch product reviews
     useEffect(() => {
-        getReviews(id).then((res) => {
-            setreviewData(res.data.filteredReviews)
-        }).catch((error) => {
-            console.log(error);
-        })
-    }, [])
+        getReviews(id)
+            .then((res) => setReviewData(res.data.filteredReviews))
+            .catch((error) => console.log(error))
+    }, [id])
 
-    // add review datas
-    const handleChange = (e)=>{
+    const handleChange = (e) => {
         setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    // add review Api
-    const handleSubmit =async(e)=>{
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         try {
-            e.preventDefault()
-            await addReview(id,values).then((res)=>{
-                // console.log(res);
-                toast.success(res.data.message)
-            }).catch((error)=>{
-                // console.log(error);
-                toast.error(error.response.data)
-            })
+            await addReview(id, values)
+                .then((res) => {
+                    toast.success(res.data.message)
+                    setValues({ rating: "", comment: "" }) // reset form
+                })
+                .catch((error) => toast.error(error.response?.data || "Failed to submit review"))
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
     }
 
-    // add to cart Api
-    const handleAddtocart = async (id) => {
+    const handleAddToCart = async (productId) => {
         try {
-            await addToCart(id).then((res) => {
-                toast.success(res.data.message)
-            }).catch((error) => {
-                toast.error(error.response.data.error);
-            })
+            await addToCart(productId)
+                .then((res) => toast.success(res.data.message))
+                .catch((error) => toast.error(error.response?.data?.error || "Failed to add to cart"))
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-
     }
+
     return (
-        <div className='container'>
-            <div className='grid grid-cols-2 mt-[100px]'>
-                <div className='flex flex-col justify-center items-center '>
-                    <div>
-                        <img src={item.image} alt="" className='h-[400px] object-contain bg-[#dcd7d7] p-4' />
-                    </div>
-
+        <div className='container mt-[100px] px-4 md:px-10 mb-10'>
+            {/* Product Info */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-10 mb-12'>
+                <div className='flex justify-center items-center'>
+                    <img
+                        src={item.image}
+                        alt={item.title}
+                        className='h-[400px] w-full max-w-[400px] object-contain bg-gray-200 p-4 rounded-lg shadow-sm'
+                    />
                 </div>
-                <div className='flex flex-col'>
-                    <h2 className='font-bold text-[25px] mb-0'>{item.title}</h2>
-                    <h2 className='font-bold text-[18px] text-[#918989]'>{item.team}</h2>
-                    <h2 className='font-bold text-[20px] mb-3'>KIT : {item.description}</h2>
-                    <p>Premium Quality Football Jersey,Designed for Passion,Built for Performance Whether you're cheering from the stands or playing on the pitch,this high-quality football jersey keeps you cool,dry,and ready for action.Made from breathable,sweat-wicking fabric,it combines comfort and style with your favorite team's iconic colors and design</p>
-                    <div>
-                        <div>
-                            <button className="border-white border p-2 bg-[#050505] text-white text-[12px] mb-2" onClick={() => handleAddtocart(item._id)}>ADD TO CART</button>
-                        </div>
+                <div className='flex flex-col gap-4'>
+                    <h2 className='text-2xl font-bold text-gray-800'>{item.title}</h2>
+                    <h3 className='text-lg font-semibold text-gray-500'>{item.team}</h3>
+                    <p className='text-md font-medium'>KIT: {item.description}</p>
+                    <p className='text-gray-700 text-sm leading-relaxed'>
+                        Premium Quality Football Jersey designed for passion, built for performance.
+                        Whether you're cheering from the stands or playing on the pitch, this high-quality
+                        jersey keeps you cool and ready. Made from breathable, sweat-wicking fabric with
+                        iconic team design.
+                    </p>
+                    <div className='flex justify-between items-center mt-4'>
+                        <h2 className='text-xl font-bold text-green-600'>{item.price}/-</h2>
+                        <button
+                            onClick={() => handleAddToCart(item._id)}
+                            className='bg-black text-white px-4 py-2 text-sm font-semibold rounded-md hover:bg-gray-800 transition'
+                        >
+                            ADD TO CART
+                        </button>
                     </div>
-                    <h2 className='font-bold text-[19px]'>{item.price}/-</h2>
                 </div>
-
             </div>
 
-            {/* review submit section */}
-
-            <div className='mt-4 '>
-                <h4 className='text-center font-bold mb-3'>ADD REVIEWS</h4>
-                <div className='flex justify-center items-center mb-3 gap-3'>
+            {/* Add Review */}
+            <div className='border-t pt-6'>
+                <h3 className='text-center text-xl font-semibold mb-4'>Add Your Review</h3>
+                <form onSubmit={handleSubmit} className='flex flex-col md:flex-row gap-4 justify-center items-center mb-8'>
                     <div>
-                    <label htmlFor="role">RATING</label>
-                    <select name="rating" className='border border-black' onChange={handleChange}>
-                        <option value="">/5</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+                        <label htmlFor="rating" className='block text-sm font-medium'>Rating</label>
+                        <select
+                            name="rating"
+                            id="rating"
+                            className='border px-3 py-1 rounded-md text-sm w-[100px]'
+                            onChange={handleChange}
+                            value={values.rating}
+                        >
+                            <option value="">--</option>
+                            <option value="1">1 ⭐</option>
+                            <option value="2">2 ⭐⭐</option>
+                            <option value="3">3 ⭐⭐⭐</option>
+                            <option value="4">4 ⭐⭐⭐⭐</option>
+                            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                        </select>
                     </div>
-                    <textarea id="message" name="comment" style={{ height: "40px" }}className='bg-black text-white' cols="50" onChange={handleChange}></textarea>
-                    <button className='bg-black text-white p-1 text-[12px]' onClick={handleSubmit}>SUBMIT</button>
-                </div>
+                    <textarea
+                        name="comment"
+                        placeholder="Write your review..."
+                        className='border px-3 py-2 rounded-md text-sm w-full md:w-[400px] h-[50px]'
+                        onChange={handleChange}
+                        value={values.comment}
+                        required
+                    />
+                    <button
+                        type="submit"
+                        className='bg-black text-white px-4 py-2 text-sm rounded-md hover:bg-gray-800 transition'
+                    >
+                        Submit
+                    </button>
+                </form>
 
-                {/* customer reviews */}
-                <h4 className='text-center font-bold mb-3'>CUSTOMER REVIEWS</h4>
-                <div className='grid lg:grid-cols-3 grid-cols-1 gap-2 mb-5'>
-                    {
-                        reviewData.map((products, index) => (
-                            <div key={index}>
-                                <ReviewCard item={products} />
-                            </div>
-                        ))
-                    }
-                </div>
+                {/* Reviews */}
+                <h3 className='text-center text-xl font-semibold mb-4'>Customer Reviews</h3>
+                {reviewData.length > 0 ? (
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                        {reviewData.map((review, index) => (
+                            <ReviewCard key={index} item={review} />
+                        ))}
+                    </div>
+                ) : (
+                    <p className='text-center text-gray-500'>No reviews yet.</p>
+                )}
             </div>
         </div>
     )

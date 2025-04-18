@@ -7,7 +7,7 @@ const getCart = async (req, res) => {
     try {
         const userId = req.user
         const cart = await cartModel.findOne({ userId }).populate("products.productId")
-        console.log(cart);
+        // console.log(cart);
 
         if (!cart) {
             return res.status(400).json({ error: 'cart is empty' })
@@ -37,9 +37,9 @@ const addTocart = async (req, res) => {
             cart = new cartModel({ userId, products: [] })
         }
 
-        const courseAlreadyExist = cart.products.some((item) => item.productId.equals(productId))
+        const productExist = cart.products.some((item) => item.productId.equals(productId))
 
-        if (courseAlreadyExist) {
+        if (productExist) {
             return res.status(400).json({ error: "Product already in cart" })
 
         }
@@ -115,7 +115,7 @@ const cartUpdateQuantity = async (req,res)=>{
         const {productId} = req.params
         const {quantity} = req.body
 
-        console.log(quantity,"quantity from frontend");
+        // console.log(quantity,"quantity from frontend");
         
  
         

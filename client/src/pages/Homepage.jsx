@@ -41,7 +41,7 @@ function Homepage() {
 
                         <div className='bg-[#D9D9D9] flex rounded-[5px] gap-3'>
                             <div>
-                                <img src="images/mbappe.png" alt="" className='lg:h-[300px] h-[170px] object-cover' />
+                                <img src="/images/mbappe.png" alt="" className='lg:h-[300px] h-[170px] object-cover' />
                             </div>
                             <div className='flex flex-col justify-center item-center'>
                                 <h2 className='font-bold lg:text-[23px] text-[14px]'>FOR COUNTRY, FOR GLORY!</h2>

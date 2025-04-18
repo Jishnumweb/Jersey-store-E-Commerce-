@@ -20,6 +20,11 @@ import AllproductAdmin from "../pages/Adminpage/AllproductAdmin";
 import Viewuserspage from "../pages/Adminpage/Viewuserspage";
 import AllSellers from "../pages/Adminpage/AllSellers";
 import AddProductAdmin from "../pages/Adminpage/AddProductAdmin";
+import Checkout from "../pages/Checkout";
+import OrderPage from "../pages/OrderPage";
+import Success from "../pages/Success";
+import MyOrders from "../pages/MyOrderpage";
+import Allorders from "../pages/Adminpage/Allorders";
 
 
 export const router = createBrowserRouter([
@@ -59,6 +64,38 @@ export const router = createBrowserRouter([
       element: (
         <ProtectedRoute authUser="user">
           <ProductDetailsPage />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: "/checkout",
+      element: (
+        <ProtectedRoute authUser="user">
+          <Checkout/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: "/success",
+      element: (
+        <ProtectedRoute authUser="user">
+          <OrderPage/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: "/payment/success",
+      element: (
+        <ProtectedRoute authUser="user">
+          <Success/>
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: "/my-orders",
+      element: (
+        <ProtectedRoute authUser="user">
+          <MyOrders/>
         </ProtectedRoute>
       )
     }
@@ -106,6 +143,13 @@ export const router = createBrowserRouter([
         element:(
           <ProtectedRoute authUser="admin">
             <AllSellers/>
+          </ProtectedRoute>
+        )
+      },{
+        path:"all-orders",
+        element:(
+          <ProtectedRoute authUser="admin">
+            <Allorders/>
           </ProtectedRoute>
         )
       }

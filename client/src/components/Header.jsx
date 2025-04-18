@@ -10,7 +10,7 @@ import { userLogout } from "../services/userApi";
 function Header() {
     const [show, setShow] = useState(false);
     const dispatch = useDispatch()
-    const navLinks = [{ label: "HOME", link: "/" }, { label: "SHOP", link: "/shop" }, { label: "CONTACT", link: "#contact" }]
+    const navLinks = [{ label: "HOME", link: "/" }, { label: "SHOP", link: "/shop" }, { label: "My Orders", link: "/my-orders" }]
     const navigate = useNavigate()
     const userData = useSelector(state => state.user);
 
@@ -46,7 +46,7 @@ function Header() {
 
             <div className="container z-50 fixed top-0 w-full hidden sm:hidden lg:flex justify-between items-center gap-8   rounded-[15px] py-4 ">
                 <div>
-                    <h6 className="text-[#FF0000] font-bold">KICKWEAR</h6>
+                    <h6 className="text-[#FF0000] font-bold cursor-pointer" onClick={()=>navigate("/")}>KICKWEAR</h6>
                 </div>
                 {
                     userData.value && Object.keys(userData.value).length > 0 ? <div>
@@ -54,7 +54,7 @@ function Header() {
                             {
                                 navLinks.map((nav, index) => (
                                     <div key={index}>
-                                        <li className=" font-semibold mt-2 text-red-600 relative text-[13px] transition-all duration-300 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#95BD2F] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"><a href={nav.link} className="no-underline text-[#FF0000]" onClick={() => navigate(nav.link)}>{nav.label}</a></li>
+                                        <li className="  mt-2 text-red-600 relative text-[15px] font-bold transition-all duration-300 after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-[#95BD2F] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"><a href={nav.link} className="no-underline text-[#FF0000]" onClick={() => navigate(nav.link)}>{nav.label}</a></li>
                                     </div>
                                 ))
                             }

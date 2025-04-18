@@ -19,3 +19,6 @@ export const updateQuantity = (data,quantity)=>{
 export const getCarts = ()=>{
     return axiosInstance.get("/cart/getcart")
 }
+export const makePayment = (data,address)=>{
+    return axiosInstance.post("/payment/stripe-payment",data,address)
+}

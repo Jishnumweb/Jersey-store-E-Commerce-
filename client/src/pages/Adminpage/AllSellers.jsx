@@ -40,7 +40,7 @@ function AllSellers() {
                 <div className='flex flex-col gap-2'>
                     {
                         data.length ?  data.map((items, index) => (
-                            <div className='grid grid-cols-4 gap-2 bg-[#c7c7c7] justify-center items-center p-3' key={index}>
+                            <div className='grid grid-cols-4 gap-2  border border-black bg-[#f1f0f0] justify-center items-center p-3' key={index}>
                                 <div>
                                     <p>{items.name} </p>
                                 </div>

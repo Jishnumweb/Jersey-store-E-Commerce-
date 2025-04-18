@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const orderSchema = new mongoose.Schema({
     userId:{
         type:mongoose.Types.ObjectId,
-        ref:"user",
+        ref:"User",
         required:true
     },
     products:[{
@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        enum:["Order placed","packed","shipped","delivered"],
+        enum:["Order placed","delivered"],
         default:"Order placed"
     }
 },{timestamps:true})

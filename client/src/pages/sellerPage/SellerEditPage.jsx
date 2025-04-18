@@ -20,7 +20,6 @@ function SellerEditPage() {
   // fetch one products
   useEffect(() => {
     fetchDetails(id).then((res) => {
-      console.log(res);
       setItem(res.data)
     }).catch((error) => {
       console.log(error);

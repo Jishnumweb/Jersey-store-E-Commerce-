@@ -39,7 +39,7 @@ function Viewuserspage() {
             </div>
             {
                 user.map((users, index) => (
-                    <div className='grid grid-cols-4 gap-3 justify-center items-center mt-5 bg-[#d2d2d2] p-3' key={index}>
+                    <div className='grid grid-cols-4 gap-3 justify-center items-center mt-5  border border-black bg-[#f1f0f0]  p-3' key={index}>
                         <div>
                             <p className='font-bold'>{users.name.toUpperCase()}</p>
                         </div>

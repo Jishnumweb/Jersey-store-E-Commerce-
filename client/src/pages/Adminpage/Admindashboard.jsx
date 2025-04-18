@@ -26,7 +26,7 @@ function Admindashboard() {
           <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-all-sellers")}>VIEW ALL SELLERS</button>
         </div>
         <div >
-          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("view-product")}>VIEW ALL ORDERS</button>
+          <button className='border border-black text-black w-[400px] p-2' onClick={() => navigate("all-orders")}>VIEW ALL ORDERS</button>
         </div>
       </div>
     </div>

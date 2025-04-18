@@ -20,9 +20,7 @@ function Sellerdashboard() {
           <div >
             <button className='border border-black text-black w-[400px]  py-2 ' onClick={()=>navigate("view-product")}>VIEW PRODUCTS</button>
           </div>
-          <div >
-            <button className='border border-black text-black w-[400px]  py-2'>UPDATE PRODUCT</button>
-          </div>
+
       </div>
     </div>
   )

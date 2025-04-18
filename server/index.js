@@ -9,6 +9,7 @@ const productRouter = require('./routes/productRoutes');
 const cartRouter = require('./routes/cartRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const orderRouter = require('./routes/orderRoutes');
+const paymentRouter = require('./routes/paymentRoute');
 
 
 // db connection
@@ -31,6 +32,7 @@ app.use("/product",productRouter)
 app.use("/cart",cartRouter)
 app.use("/review",reviewRouter)
 app.use("/order",orderRouter)
+app.use("/payment",paymentRouter)
 
 
 

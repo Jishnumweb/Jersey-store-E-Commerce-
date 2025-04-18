@@ -9,7 +9,7 @@ function EmptyCard() {
     <div>
         <div className=' flex flex-col justify-center items-center'>
             <h4>CART IS EMPTY !</h4>
-            <button className='bg-black text-white text-[12px] p-1' onClick={()=>navigate("/shop")}>SHOP NOUW</button>
+            <button className='bg-black text-white text-[12px] p-1' onClick={()=>navigate("/shop")}>SHOP NOW</button>
         </div>
       
     </div>
