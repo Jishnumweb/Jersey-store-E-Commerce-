@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { getAllOrder } from "../../services/orderApi";
 import { Navigate, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [revenue, setRevenue] = useState(0);
   const navigate = useNavigate()
+  const [load,setLoad] = useState(false)
+
 
   useEffect(() => {
     // Fetch all orders (replace with your actual API call)
     getAllOrder().then((res)=>{
         setOrders(res.data)
         console.log(res.data);
+        setLoad(true)
         
         const totalRevenue = res.data.reduce((acc,items)=>acc+items.totalPrice,0)
         setRevenue(totalRevenue)
     }).catch((error)=>{
         console.log(error);
+        setLoad(false)
         
     })
 
   }, []);
 
   return(
-      <div className="overflow-x-auto bg-white rounded-xl shadow mt-[100px] px-5">
+    <div>
+      {
+        load ?       <div className="overflow-x-auto bg-white rounded-xl shadow mt-[100px] px-5">
         <div className="grid grid-cols-3 mb-[100px] justify-center items-center gap-4">
             <div className="bg-[#f5f6fa] flex flex-col justify-center item-center text-center py-3 border-3 rounded-md">
                 <p className="mb-0">Total Orders</p>
@@ -65,7 +72,10 @@ const AdminOrders = () => {
           </tbody>
 
         </table>
-      </div>
+      </div> : <Loader/>
+      }
+    </div>
+
   );
 };
 

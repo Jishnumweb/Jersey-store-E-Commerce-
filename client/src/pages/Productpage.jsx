@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../services/productApi";
 import ProductCard from "../components/ProductCard";
+import Loader from "../components/Loader";
 
 function Productpage() {
   const [item, setItem] = useState([]);
   const [filteritems, setFilteritems] = useState([]);
   const [category, setCategory] = useState("all");
   const [value, setValue] = useState("");
+  const [load,setLoad] = useState(false)
 
   // Fetch all products
   useEffect(() => {
     getProducts().then((res) => {
       console.log(res);
       setItem(res.data);
+      setLoad(false)
       setFilteritems(res.data);
     }).catch((error) => {
       console.log(error);
+      setLoad(true)
     });
   }, []);
 
@@ -85,17 +89,22 @@ function Productpage() {
       </div>
 
       {/* Product Listing */}
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
-        {filteritems.length ? filteritems.map((items, index) => (
-          <div key={index} className="transition-transform transform hover:scale-105">
-            <ProductCard item={items} />
-          </div>
-        )) : (
-          <div className="col-span-full text-center text-gray-500 font-semibold mt-10">
-            No matching products found.
-          </div>
-        )}
+      <div>
+        {
+          load ?       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
+          {filteritems.length ? filteritems.map((items, index) => (
+            <div key={index} className="transition-transform transform hover:scale-105">
+              <ProductCard item={items} />
+            </div>
+          )) : (
+            <div className="col-span-full text-center text-gray-500 font-semibold mt-10">
+              No matching products found.
+            </div>
+          )}
+        </div> : <Loader/>
+        }
       </div>
+
     </div>
   );
 }
