@@ -1,8 +1,12 @@
-import axios from 'axios'
+import axios from "axios";
 
-const axiosInstance = axios.create({
-    baseURL : import.meta.env.VITE_BASEURL,
-    withCredentials:true
+export const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BASEURL
 })
 
-export default axiosInstance
+
+axiosInstance.interceptors.request.use((request) => {
+    const token = localStorage.getItem("token")
+    request.headers.Authorization = `Bearer ${token}`
+    return request;
+})

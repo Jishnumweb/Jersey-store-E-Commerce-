@@ -1,29 +1,30 @@
-const jwt = require("jsonwebtoken")
+const jwt = require('jsonwebtoken');
+const userModel = require('../models/userModel');
 
-const authUser = (req, res, next) => {
+
+module.exports = async (req, res, next) => {
     try {
+        const authHeader = req.headers.authorization
 
-        const { token } = req.cookies;
-        // console.log(token, "token");
+        console.log(authHeader, "header");
 
 
-        if (!token) {
-            return res.status(401).json({ error: 'jwt not found' })
-        }
+        const authToken = authHeader && authHeader.split(" ")[1];
+        // if there is no tocken
+        if (!authToken) return res.status(400).json({ error: "no auth token" });
 
-        const verifiedToken = jwt.verify(token, process.env.SECRETE_KEY)
-        if (!verifiedToken) {
-            return res.status(401).json({ error: "User not authorized" })
-        }
- 
+        //decording the token
+        const decoded = jwt.verify(authToken, process.env.JWT_SECRETE_KEY)
+        //checking whether the user is exist or not
+        const user = await userModel.findOne({ _id: decoded.id })
+        if (!user) return res.json({ error: "User not Found" })
 
-        req.user = verifiedToken.id
+        req.user = decoded.id
 
         next()
     } catch (error) {
+        console.log(error, "error");
 
-        res.status(error.status || 401).json({ error: error.message || "user authorization failed" })
+        return res.status(error.status || 500).json({ error: "Please Login" })
     }
 }
-
-module.exports = authUser
