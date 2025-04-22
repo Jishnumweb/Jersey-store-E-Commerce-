@@ -15,7 +15,7 @@ function Productpage() {
     getProducts().then((res) => {
       console.log(res);
       setItem(res.data);
-      setLoad(false)
+      setLoad(true)
       setFilteritems(res.data);
     }).catch((error) => {
       console.log(error);

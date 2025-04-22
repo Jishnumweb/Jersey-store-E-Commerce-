@@ -13,7 +13,7 @@ function AllSellers() {
         getAllUsers().then((res) => {
             const filterData = res.data.filter((datas) => datas.role === "seller");
             setData(filterData);
-            setLoad(false)
+            setLoad(true)
         }).catch((error) => {
             console.log(error);
             toast.error('Error fetching sellers');
