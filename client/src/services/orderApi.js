@@ -16,3 +16,11 @@ export const getOrder = ()=>{
 export const getAllOrder = ()=>{
     return axiosInstance.get("/order/get-allOrders")
 }
+// get admin Orders details
+export const orderDetails = (data)=>{
+    return axiosInstance.post(`/order/order-details/${data}`)
+}
+// get admin Orders details
+export const statusUpdate = (id,data)=>{
+    return axiosInstance.patch(`/order/update-status/${id}`,data)
+}

@@ -14,6 +14,10 @@ const paymentRouter = require('./routes/paymentRoute');
 
 // db connection
 dbConnect()
+
+app.get("/",(req,res)=>{
+    res.json("server hitted")
+})
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true

@@ -25,6 +25,7 @@ import OrderPage from "../pages/OrderPage";
 import Success from "../pages/Success";
 import MyOrders from "../pages/MyOrderpage";
 import Allorders from "../pages/Adminpage/Allorders";
+import OrderDetails from "../pages/Adminpage/OrderDetails";
 
 
 export const router = createBrowserRouter([
@@ -150,6 +151,13 @@ export const router = createBrowserRouter([
         element:(
           <ProtectedRoute authUser="admin">
             <Allorders/>
+          </ProtectedRoute>
+        )
+      },{
+        path:"order-details/:id",
+        element:(
+          <ProtectedRoute authUser="admin">
+            <OrderDetails/>
           </ProtectedRoute>
         )
       }

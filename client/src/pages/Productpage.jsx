@@ -1,77 +1,82 @@
-import { useEffect, useState } from "react"
-import ProductCard from "../components/ProductCard"
-import { getProducts } from "../services/productApi"
+import { useEffect, useState } from "react";
+import { getProducts } from "../services/productApi";
+import ProductCard from "../components/ProductCard";
 
 function Productpage() {
-  const [item, setItem] = useState([])
-  const [filteritems, setFilteritems] = useState([])
-  const [category, setCategory] = useState("all")
-  const [value, setValue] = useState("")
+  const [item, setItem] = useState([]);
+  const [filteritems, setFilteritems] = useState([]);
+  const [category, setCategory] = useState("all");
+  const [value, setValue] = useState("");
 
-  // fetch all products
+  // Fetch all products
   useEffect(() => {
     getProducts().then((res) => {
-      console.log(res)
-      setItem(res.data)
-      setFilteritems(res.data)
+      console.log(res);
+      setItem(res.data);
+      setFilteritems(res.data);
     }).catch((error) => {
-      console.log(error)
-    })
-  }, [])
+      console.log(error);
+    });
+  }, []);
 
-  // filter option based on club/nation/all
+  // Filter products based on category
   const handleFilter = (product) => {
-    setCategory(product)
+    setCategory(product);
     if (product === "all") {
-      setFilteritems(item)
+      setFilteritems(item);
     } else {
-      const filtered = item.filter((items) => items.category === product)
-      setFilteritems(filtered)
+      const filtered = item.filter((items) => items.category === product);
+      setFilteritems(filtered);
     }
-  }
+  };
 
-  // data collection from search field
+  // Handle search input
   const handleChange = (e) => {
-    setValue(e.target.value)
-  }
+    setValue(e.target.value);
+  };
 
-  // filter products from search 
+  // Filter products from search
   const handleSubmit = () => {
     const filterInput = item.filter((products) =>
       products.team.toLowerCase().includes(value.toLowerCase()) ||
       products.title.toLowerCase().includes(value.toLowerCase())
-    )
-    setFilteritems(filterInput)
-  }
+    );
+    setFilteritems(filterInput);
+  };
 
   return (
-    <div className="container mt-[100px] mb-[100px]">
-      {/* Filter and search */}
-      <div className="flex lg:flex-row flex-col justify-start items-center gap-3 mb-4">
-        <div className="flex gap-1">
+    <div className="container mt-[100px] mb-[100px] px-4">
+      {/* Filter and Search Section */}
+      <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-6">
+        <div className="flex gap-2">
           <input
             type="text"
             onChange={handleChange}
-            placeholder='player/club'
-            className='bg-[white] border border-black placeholder:text-[black] lg:p-1 px-2 py-1 rounded-[3px]'
+            placeholder="Search by player/club"
+            className="bg-white border border-gray-300 text-black placeholder:text-gray-500 rounded-lg p-2 w-64 focus:outline-none focus:ring-2 focus:ring-[#FF0000] transition-all"
           />
-          <button onClick={handleSubmit} className="bg-black text-white text-[10px] px-3">Search</button>
+          <button 
+            onClick={handleSubmit} 
+            className="bg-gradient-to-r from-[#FF6347] to-[#FF4500] text-white px-6 py-2 rounded-xl font-semibold text-sm shadow-lg transform transition-all hover:scale-105 hover:from-[#FF4500] hover:to-[#FF6347] focus:ring-4 focus:ring-[#FF6347] focus:ring-opacity-50"
+          >
+            Search
+          </button>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
-            className="border border-black text-[black] p-1 lg:px-2 px-1 rounded-[3px] lg:text-base text-[10px]"
+            className={`border border-gray-300 text-black px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:bg-[#FF6347] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6347] focus:ring-opacity-50 ${category === "all" ? "bg-[#FF6347] text-white" : ""}`}
             onClick={() => handleFilter("all")}
           >
             All
           </button>
           <button
-            className="border border-black text-[black] p-1 lg:px-2 px-1 rounded-[3px] lg:text-base text-[10px]"
+            className={`border border-gray-300 text-black px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:bg-[#FF6347] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6347] focus:ring-opacity-50 ${category === "club" ? "bg-[#FF6347] text-white" : ""}`}
             onClick={() => handleFilter("club")}
           >
             Club
           </button>
           <button
-            className="border border-black text-[black] p-1 lg:px-2 px-1 rounded-[3px] lg:text-base text-[10px]"
+            className={`border border-gray-300 text-black px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:bg-[#FF6347] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FF6347] focus:ring-opacity-50 ${category === "nation" ? "bg-[#FF6347] text-white" : ""}`}
             onClick={() => handleFilter("nation")}
           >
             Nation
@@ -79,22 +84,20 @@ function Productpage() {
         </div>
       </div>
 
-      {/* product listing */}
-      <div className="grid lg:grid-cols-4 grid-cols-2 gap-3">
-        {
-          filteritems.length ? filteritems.map((items, index) => (
-            <div key={index}>
-              <ProductCard item={items} />
-            </div>
-          )) : (
-            <div className="col-span-full text-center text-gray-500 font-semibold mt-10">
-              No matching products found.
-            </div>
-          )
-        }
+      {/* Product Listing */}
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
+        {filteritems.length ? filteritems.map((items, index) => (
+          <div key={index} className="transition-transform transform hover:scale-105">
+            <ProductCard item={items} />
+          </div>
+        )) : (
+          <div className="col-span-full text-center text-gray-500 font-semibold mt-10">
+            No matching products found.
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Productpage
+export default Productpage;

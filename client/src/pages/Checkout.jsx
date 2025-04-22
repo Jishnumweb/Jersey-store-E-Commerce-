@@ -47,7 +47,7 @@ function Checkout() {
         await createOrder({ shippingAddress: address, paymentMethod: method })
           .then((res) => {
             toast.success(res.data.message);
-            navigate('/success');
+            navigate('/payment/success');
           })
           .catch((error) => {
             toast.error(error.response.data.message);

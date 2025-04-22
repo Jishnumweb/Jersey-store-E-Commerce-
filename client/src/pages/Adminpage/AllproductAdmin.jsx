@@ -1,66 +1,70 @@
-import React, { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { deleteProductApi, getProducts } from '../../services/productApi'
+import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { deleteProductApi, getProducts } from '../../services/productApi';
 
 function AllproductAdmin() {
 
-    const [item, setItem] = useState([])
+    const [item, setItem] = useState([]);
 
-    // fetch all products
+    // Fetch all products
     useEffect(() => {
         getProducts().then((res) => {
-            setItem(res.data)
+            setItem(res.data);
         }).catch((error) => {
             console.log(error);
-        })
-    }, [])
+        });
+    }, []);
 
-    // delete product Api
-const deleteProduct = async (id) => {
-    try {
-        await deleteProductApi(id).then((res) => {
-            console.log(res);
-            const filtered = item.filter((items) => items._id !== id)
-            setItem(filtered)
-            toast.success(res.data)
-        }).catch((error) => {
-            toast.error(error.response.data)
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
-
+    // Delete product API
+    const deleteProduct = async (id) => {
+        try {
+            await deleteProductApi(id).then((res) => {
+                console.log(res);
+                const filtered = item.filter((items) => items._id !== id);
+                setItem(filtered);
+                toast.success(res.data);
+            }).catch((error) => {
+                toast.error(error.response.data);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
-        <div className='mt-[100px] container mb-5'>
-            <div className=' text-center'>
-                <h2 className='font-bold mb-5'>ALL PRODUCTS</h2>
+        <div className='mt-[80px] container mb-5'>
+            <div className='text-center'>
+                <h2 className='font-bold text-xl mb-5 text-gray-800'>ALL PRODUCTS</h2>
 
-                {/* product listing */}
-                <div className='flex flex-col gap-2'>
+                {/* Product Listing */}
+                <div className='flex flex-col gap-3'>
                     {
-                        item.map((items,index) => (
-                            <div className='grid grid-cols-4 gap-2  border border-black bg-[#f1f0f0] justify-center items-center' key={index}>
-                            <div>
-                                <img src={items.image} alt="" className='h-[100px] object-contain' />
+                        item.map((items, index) => (
+                            <div className='grid grid-cols-4 gap-4 border border-gray-300 rounded-lg p-4 bg-[#f9f9f9]' key={index}>
+                                <div>
+                                    <img src={items.image} alt={items.title} className='h-[100px] object-contain' />
+                                </div>
+                                <div>
+                                    <p className='font-medium text-gray-700'>{items.title}</p>
+                                </div>
+                                <div>
+                                    <p className='text-gray-600'>{items.description}</p>
+                                </div>
+                                <div>
+                                    <button
+                                        className='bg-red-600 text-white py-1 px-3 text-[13px] rounded-md hover:bg-red-700 transition duration-200'
+                                        onClick={() => deleteProduct(items._id)}
+                                    >
+                                        DELETE ITEM
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <p>{items.title} </p>
-                            </div>
-                            <div>
-                                <p>{items.description} </p>
-                            </div>
-                            <div>
-                                <button className='bg-red-700 text-white py-1 px-2 text-[13px]' onClick={()=>deleteProduct(items._id)}>DELETE ITEM</button>
-                            </div>
-                        </div>
                         ))
                     }
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default AllproductAdmin
+export default AllproductAdmin;

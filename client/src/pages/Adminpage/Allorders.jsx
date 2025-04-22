@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { getAllOrder } from "../../services/orderApi";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [revenue, setRevenue] = useState(0);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Fetch all orders (replace with your actual API call)
     getAllOrder().then((res)=>{
         setOrders(res.data)
+        console.log(res.data);
+        
         const totalRevenue = res.data.reduce((acc,items)=>acc+items.totalPrice,0)
         setRevenue(totalRevenue)
     }).catch((error)=>{
@@ -53,12 +57,13 @@ const AdminOrders = () => {
                 <td className={`px-4 py-3 ${order.status === "delivered" ? "text-[#247e24]" : "text-[#c83c3c]"}`}>{order.status}</td>
                 <td className="px-4 py-3">{new Date(order.createdAt).toLocaleDateString()}</td>
                 <td className="px-4 py-3">
-                  <button className="text-blue-600 hover:underline">View</button>
+                  <button className="text-blue-600 hover:underline" onClick={()=>navigate(`/admin/order-details/${order._id}`)}>View</button>
                 </td>
               </tr>
             ))}
 
           </tbody>
+
         </table>
       </div>
   );

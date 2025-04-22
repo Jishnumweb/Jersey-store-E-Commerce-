@@ -147,10 +147,53 @@ const createStripeOrder = async (req, res) => {
   }
 };
 
+const adminOrderDetails = async(req,res)=>{
+  try {
+    const {orderId} = req.params
+    
+    const order = await orderModel.findById(orderId).populate("products.productId")
+    if(!order){
+      return res.status(400).json("No order found")
+    }
+    res.status(200).json({message:"Order listed",order})
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+
+  }
+}
+
+const statusUpdate = async(req,res)=>{
+  try {
+    const {orderId} = req.params
+    const {status} = req.body
+
+    console.log(status,"jhwdjgwdghwcghu");
+    console.log(orderId,"orderrrrrr");
+    
+
+    const order = await orderModel.findByIdAndUpdate(orderId,{ $set: { status: status } }, // partial update
+      { new: true })
+    if(!order){
+      return res.status(400).json("no order found")
+    }
+    res.status(200).json({message:"status updated",order})
+    
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+
+  }
+}
+
 
 module.exports = {
   createOrder,
   getOrder,
   getAllOrders,
-  createStripeOrder
+  createStripeOrder,
+  adminOrderDetails,
+  statusUpdate
 }

@@ -32,7 +32,6 @@ function Cartpage() {
 
     return (
         <div className='mt-[100px] px-4 md:px-10 lg:px-[100px] mb-[70px] '>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Your Cart</h2>
 
             {product.length > 0 ? (
                 <>

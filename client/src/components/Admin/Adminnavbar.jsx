@@ -16,6 +16,7 @@ function Adminnavbar() {
             await userLogout().then((res)=>{
                 console.log(res);
                 localStorage.removeItem("token");
+                localStorage.removeItem("role");
                 dispatch(clearUser())
                 navigate("/")
             }).catch((error)=>{
