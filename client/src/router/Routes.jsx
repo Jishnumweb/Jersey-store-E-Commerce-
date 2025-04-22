@@ -3,7 +3,6 @@ import {
 } from "react-router-dom";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
-import UserLayout from "../Layout/UserLayout";
 import Homepage from "../pages/Homepage";
 import Registerpage from "../pages/Registerpage";
 import Loginpage from "../pages/Loginpage";
@@ -27,6 +26,7 @@ import Success from "../pages/Success";
 import MyOrders from "../pages/MyOrderpage";
 import Allorders from "../pages/Adminpage/Allorders";
 import OrderDetails from "../pages/Adminpage/OrderDetails";
+import UserLayout from "../Layout/userLayout";
 
 
 export const router = createBrowserRouter([
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
 
   {
     path: "/",
-    element: <UserLayout />,
+    element: <UserLayout/>,
     children: [{
       path: "",
       element: <Homepage />
