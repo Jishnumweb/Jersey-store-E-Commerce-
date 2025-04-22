@@ -18,10 +18,23 @@ dbConnect()
 app.get("/",(req,res)=>{
     res.json("server hitted")
 })
-app.use(cors({
-    origin:"https://jersey-store-e-commerce-fi7d.vercel.app",
-    credentials:true
-}))
+const allowedOrigins = [
+    "https://jersey-store-e-commerce-fi7d.vercel.app", // old frontend
+    "https://jersey-store-e-commerce-yyfh.vercel.app", // new frontend
+    "http://localhost:3000" // for local dev 
+  ];
+  
+  app.use(cors({
+    origin: function(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
+    credentials: true
+  }));
+  
 
 // Application middlewares
 app.use(express.json())
