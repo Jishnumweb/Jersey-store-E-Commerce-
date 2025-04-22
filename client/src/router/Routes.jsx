@@ -26,7 +26,7 @@ import Success from "../pages/Success";
 import MyOrders from "../pages/MyOrderpage";
 import Allorders from "../pages/Adminpage/Allorders";
 import OrderDetails from "../pages/Adminpage/OrderDetails";
-import UserLayout from "../Layout/userLayout";
+import UserLayout from "../Layout/Userlayout";
 
 
 export const router = createBrowserRouter([
