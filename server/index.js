@@ -19,7 +19,7 @@ app.get("/",(req,res)=>{
     res.json("server hitted")
 })
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin:"https://jersey-store-e-commerce-fi7d.vercel.app/",
     credentials:true
 }))
 
