@@ -1,6 +1,8 @@
 import {
   createBrowserRouter
 } from "react-router-dom";
+import { ProtectedRoute } from "../components/ProtectedRoute";
+
 import UserLayout from "../Layout/UserLayout";
 import Homepage from "../pages/Homepage";
 import Registerpage from "../pages/Registerpage";
@@ -10,7 +12,6 @@ import Admindashboard from "../pages/Adminpage/Admindashboard";
 import Sellerdashboard from "../pages/sellerPage/Sellerdashboard";
 import Cartpage from "../pages/Cartpage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
-import { ProtectedRoute } from "../components/protectedRoute";
 import Sellerlayout from "../Layout/Sellerlayout";
 import AddProductPage from "../pages/sellerPage/AddProductPage";
 import ViewProductPage from "../pages/sellerPage/ViewProductPage";
