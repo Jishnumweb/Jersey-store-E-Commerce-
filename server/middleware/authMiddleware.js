@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
         if (!authToken) return res.status(400).json({ error: "no auth token" });
 
         //decording the token
-        const decoded = jwt.verify(authToken, process.env.JWT_SECRETE_KEY)
+        const decoded = jwt.verify(authToken, process.env.SECRETE_KEY)
         //checking whether the user is exist or not
         const user = await userModel.findOne({ _id: decoded.id })
         if (!user) return res.json({ error: "User not Found" })
