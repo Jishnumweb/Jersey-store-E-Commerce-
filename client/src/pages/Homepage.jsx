@@ -39,16 +39,7 @@ function Homepage() {
             default:
                 return (
                     <div>
-                        <div className="homepage-walpapper relative lg:h-screen h-[320px] lg:bg-cover bg-contain bg-center bg-no-repeat ">
-                            <div className='absolute flex flex-col lg:top-[450px] lg:left-[100px] text-white top-[170px] left-[30px]'>
-                                <h3 className='lg:text-[50px] text-[15px] font-bold text-white lg:mb-1 mb-0'>GEAR UP LIKE A CHAMPION - </h3>
-                                <h3 className='lg:text-[50px] text-[15px] font-bold text-white mb-0'>PREMIUM JERSEYS AWAIT!</h3>
-                                <p className='text-center font-bold lg:text-base text-[10px] lg:mb-2 mb-0'>Join the Team – Sign Up to Shop!</p>
-                                <div className='flex justify-center'>
-                                    <button className="bg-[#FF0000] font-medium lg:rounded-[5px] lg:py-[7px] py-[4px] px-2 lg:text-[14px] text-[7px]" onClick={() => navigate("/register")}>SIGN-UP</button>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div className='lg:mt-[100px] mt-[0px] container mb-4'>
                             <div className='grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-3'>
@@ -81,7 +72,7 @@ function Homepage() {
 
             {token ? (
                 <div>
-                    <p>Token Present</p>
+                    <p></p>
                 </div>
             ) : (
                 <Loginpage />
