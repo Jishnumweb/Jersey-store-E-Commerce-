@@ -52,7 +52,7 @@ function Homepage() {
                                             <h2 className='font-bold lg:text-[23px] text-[14px]'>FOR COUNTRY, FOR GLORY!</h2>
                                             <p className='mb-0 lg:text-base text-[10px]'>Home, Away & Third Kits Available</p>
                                             <div>
-                                                <button className='bg-[#e25a5a7a] lg:text-[14px] text-[10px] text-[white] lg:p-2 p-1' onClick={handleNavigate}>SHOP NOW</button>
+                                                <button className='bg-[#e25a5a5e] lg:text-[14px] text-[10px] text-[white] lg:p-2 p-1' onClick={handleNavigate}>SHOP NOW</button>
                                             </div>
                                         </div>
                                     </div>
