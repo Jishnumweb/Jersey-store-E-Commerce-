@@ -41,7 +41,7 @@ function Homepage() {
                     <div>
 
 
-                        <div className='lg:mt-[100px] mt-[0px] container mb-4'>
+                        <div className='lg:mt-[100px] mt-[50px] container mb-4'>
                             <div className='grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-3'>
                                 {['mbappe', 'yamal'].map((image, index) => (
                                     <div className='bg-[#D9D9D9] flex rounded-[5px] gap-3' key={index}>
