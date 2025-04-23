@@ -32,7 +32,7 @@ function Loginpage() {
                 // navigation role base
                 if (res.data.userExist.role === "admin") navigate("/admin");
                 else if (res.data.userExist.role === "seller") navigate("/seller");
-                else navigate("/"); 
+                else navigate("/shop"); 
                 toast.success(res.data.message)           
             }).catch((error) => {
                 console.log(error);
