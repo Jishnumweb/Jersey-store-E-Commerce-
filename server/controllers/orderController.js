@@ -95,17 +95,18 @@ const getAllOrders = async (req,res)=>{
 
 const createStripeOrder = async (req, res) => {
   try {
-    const userId = req.user
-    const { session_id } = req.body;
-    console.log(session_id, "session id");
+    const { session_id } = req.body; // Ensure that the session_id is correctly received
+    console.log(session_id, "session_id received");
 
     // 1. Fetch session from Stripe using session_id
     const session = await stripe.checkout.sessions.retrieve(session_id);
     console.log(session, "retrieved session from Stripe");
 
-    // 2. Extract metadata
-    console.log(userId,"checking user exist");
-    
+    if (!session) {
+      return res.status(404).json({ error: "Session not found" });
+    }
+
+    // 2. Extract metadata (shippingAddress)
     const shippingAddress = JSON.parse(session.metadata.shippingAddress);
 
     // 3. Fetch cart from DB
@@ -143,9 +144,14 @@ const createStripeOrder = async (req, res) => {
     res.status(200).json({ message: "Stripe order placed", order: savedOrder });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message || "Internal server error" });
   }
 };
+
+module.exports = {
+  createStripeOrder,
+};
+
 
 const adminOrderDetails = async(req,res)=>{
   try {
