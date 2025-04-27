@@ -95,6 +95,8 @@ const getAllOrders = async (req,res)=>{
 
 const createStripeOrder = async (req, res) => {
   try {
+    const userId = req.user
+
     const { session_id } = req.body; // Ensure that the session_id is correctly received
     console.log(session_id, "session_id received");
 
