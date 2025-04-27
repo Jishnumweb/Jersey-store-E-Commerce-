@@ -70,7 +70,7 @@ function AllSellers() {
                                     </div>
                                 </div>
                             ))
-                            : <p className='text-center text-gray-600'>NO USERS FOUND</p>
+                            : <p className='text-center text-gray-600'>NO USER FOUND</p>
                         }
                     </div>
                 </div>
