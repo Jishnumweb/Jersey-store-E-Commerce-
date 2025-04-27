@@ -96,7 +96,7 @@ const getAllOrders = async (req,res)=>{
 const createStripeOrder = async (req, res) => {
   try {
     const userId = req.user
-    const { session_id } = req.params;
+    const { session_id } = req.body;
     console.log(session_id, "session id");
 
     // 1. Fetch session from Stripe using session_id

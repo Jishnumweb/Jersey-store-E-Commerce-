@@ -12,7 +12,7 @@ function Success() {
 
       if (sessionId) {
         try {
-          const res = await stripeOrder(sessionId);
+          const res = await stripeOrder({ sessionId });
           console.log('Order placed:', res.data);
           // You can display the order confirmation or redirect the user as needed
         } catch (error) {

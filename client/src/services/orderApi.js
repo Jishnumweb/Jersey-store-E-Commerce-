@@ -6,7 +6,7 @@ export const createOrder = (data)=>{
 }
 //Create stripe order
 export const stripeOrder = (data)=>{
-    return axiosInstance.post(`/order/create-stripe-order/${data}`)
+    return axiosInstance.post("/order/create-stripe-order",data)
 }
 // get my  Orders
 export const getOrder = ()=>{

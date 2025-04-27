@@ -25,14 +25,6 @@ const paymentFunction = async (req, res) => {
         }))
         
 
-        // const session = await stripe.checkout.sessions.create({
-        //     payment_method_types: ['card'],
-        //     line_items: lineItems,
-        //     mode: 'payment',
-        //     success_url: `${process.env.FRONTEND_URL}/payment/success`,
-        //     cancel_url: `${process.env.FRONTEND_URL}/payment/failed`
-        // })
-        // console.log(session.id);
         
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
