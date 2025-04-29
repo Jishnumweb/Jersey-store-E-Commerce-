@@ -27,6 +27,7 @@ import MyOrders from "../pages/MyOrderpage";
 import Allorders from "../pages/Adminpage/Allorders";
 import OrderDetails from "../pages/Adminpage/OrderDetails";
 import UserLayout from "../Layout/Userlayout";
+import Editproductadmin from "../pages/Adminpage/Editproductadmin";
 
 
 export const router = createBrowserRouter([
@@ -133,7 +134,18 @@ export const router = createBrowserRouter([
             <AllproductAdmin/>
           </ProtectedRoute>
         )
-      },{
+      },
+      {
+        path:"edit-product/:id",
+        element:(
+          <ProtectedRoute authUser="admin">
+            <Editproductadmin/>
+          </ProtectedRoute>
+        )
+
+
+      },
+        {
         path:"view-all-users",
         element:(
           <ProtectedRoute authUser="admin">

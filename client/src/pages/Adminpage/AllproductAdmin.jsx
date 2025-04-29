@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { deleteProductApi, getProducts } from '../../services/productApi';
 import Loader from '../../components/Loader';
+import { useNavigate } from 'react-router-dom';
 
 function AllproductAdmin() {
 
     const [item, setItem] = useState([]);
     const [load,setLoad] = useState(false)
+    const navigate = useNavigate()
 
 
     // Fetch all products
@@ -58,6 +60,12 @@ function AllproductAdmin() {
                                         <p className='text-gray-600'>{items.description}</p>
                                     </div>
                                     <div>
+                                        <button
+                                            className='bg-green-600 text-white py-1 px-3 text-[13px] rounded-md hover:bg-red-700 transition duration-200'
+                                            onClick={() => navigate(`/admin/edit-product/${items._id}`)}
+                                        >
+                                            DELETE ITEM
+                                        </button>
                                         <button
                                             className='bg-red-600 text-white py-1 px-3 text-[13px] rounded-md hover:bg-red-700 transition duration-200'
                                             onClick={() => deleteProduct(items._id)}
