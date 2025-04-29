@@ -59,12 +59,12 @@ function AllproductAdmin() {
                                     <div>
                                         <p className='text-gray-600'>{items.description}</p>
                                     </div>
-                                    <div>
+                                    <div className='flex gap-2'>
                                         <button
                                             className='bg-green-600 text-white py-1 px-3 text-[13px] rounded-md hover:bg-red-700 transition duration-200'
                                             onClick={() => navigate(`/admin/edit-product/${items._id}`)}
                                         >
-                                            DELETE ITEM
+                                            Edit item
                                         </button>
                                         <button
                                             className='bg-red-600 text-white py-1 px-3 text-[13px] rounded-md hover:bg-red-700 transition duration-200'
